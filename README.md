@@ -43,3 +43,5 @@
 39. Refresh token
 40. category model
 41. Category CRUD operations
+42. Product API - Product Model
+43. Product API - Create a Product 

@@ -11,6 +11,7 @@ const { errorResponse } = require('./controllers/responceController');
 const authRouter = require('./routers/authRouter');
 const cookieParser = require('cookie-parser');
 const categoryRouter = require('./routers/categoryRouter');
+const productRouter = require('./routers/productRouter');
 const app = express();
 
 const rateLimiter = rateLimit({
@@ -29,6 +30,7 @@ app.use('/api/users',userRouter)
 app.use('/api/seed',seedRouter)
 app.use('/api/auth',authRouter)
 app.use('/api/category',categoryRouter)
+app.use('/api/product',productRouter)
 
 const isloggedin = (req,res,next) =>{
     const login = true;
