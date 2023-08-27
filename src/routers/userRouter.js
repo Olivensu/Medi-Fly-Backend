@@ -8,16 +8,17 @@ const userRouter = express.Router();
 
 
 
-userRouter.post('/register',upload.single("image"),validateUserRegistration,isloggedOut, runValidation,   processRegister);
-userRouter.post('/verify', isloggedOut, activateUserAccount);
-userRouter.get('/', isloggedin,isAdmin, getUsers);
-userRouter.get('/:id', isloggedin,  getUserById);
+userRouter.post('/register',upload.single("image"), validateUserRegistration, runValidation,   processRegister);
+// userRouter.post('/verify', isloggedOut, activateUserAccount);
+userRouter.get('/',  getUsers); // isloggedin,isAdmin,
+// userRouter.get('/:id',  getUserById); // isloggedin,
+userRouter.get('/:email',  getUserById); // isloggedin,
 userRouter.put('/reset-password', handleResetPassword);
-userRouter.put('/:id',upload.single("image"), isloggedin, updateUserById);
-userRouter.delete('/:id',isloggedin,  deleteUserById);
-userRouter.put('/ban-user/:id',isloggedin,isAdmin,  banUserById);
-userRouter.put('/unban-user/:id',isloggedin,isAdmin,  unbanUserById);
-userRouter.put('/update-password/:id',isloggedin, handleUpdatePassword);
+userRouter.put('/:id',upload.single("image"), updateUserById);
+userRouter.delete('/:id',  deleteUserById);
+userRouter.put('/ban-user/:id',  banUserById);
+userRouter.put('/unban-user/:id',  unbanUserById);
+userRouter.put('/update-password/:id', handleUpdatePassword);
 userRouter.post('/forget-password', handleForgetPassword);
 
 

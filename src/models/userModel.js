@@ -6,16 +6,10 @@ const userSchema = new Schema({
     name: {
         type: String,
         required: [true, 'User name is required'],
-        trim: true,
-        minlength: [3, 'The length of user name can be minimum 3 characters'],
-        maxlength: [31, 'The length of user name can be maximum 31 characters'],
     },
     email: {
         type: String,
         required: [true, 'User email is required'],
-
-
-        
         trim: true,
         unique: true,
         lowercast: true,
@@ -34,6 +28,7 @@ const userSchema = new Schema({
     },
     image: {
         type: String,
+        required: false,
         // contentType: String,
         // defaultImgPath: defaultImgURL
     },
@@ -46,6 +41,10 @@ const userSchema = new Schema({
         required: [true, 'User phone is required'],
     },
     isAdmin: {
+        type: Boolean,
+        default: false
+    },
+    isSeller: {
         type: Boolean,
         default: false
     },

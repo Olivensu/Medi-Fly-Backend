@@ -10,10 +10,10 @@ const authRouter = express.Router();
 
 
 
-authRouter.post('/login',validateUserLogin,runValidation,isloggedOut,  handleLogin);
-authRouter.post('/logout',isloggedin, handleLogOut);
-authRouter.get('/refresh-token', handleRefreshToken);
-authRouter.get('/protected', handleProtectedRoute);
+authRouter.post('/login',validateUserLogin,runValidation,  handleLogin);
+// authRouter.post('/logout',isloggedin, handleLogOut);
+// authRouter.get('/refresh-token', handleRefreshToken);
+// authRouter.get('/protected', handleProtectedRoute);
 
 
 module.exports = authRouter

@@ -14,6 +14,19 @@ const categorySchema = new Schema({
         lowercase: true,
         unique: true,
     },
+    // image: {
+    //     type: String,
+    //     // contentType: String,
+    //     // defaultImgPath: defaultImgURL
+    // },
+    // totalRating: {
+    //     type: Number,
+    //     default: 0,
+    // },
+    // ratingAverage: {
+    //     type: Number,
+    //     default: 0,
+    // }
     
 }, {timestamps: true});
 

@@ -14,10 +14,6 @@ const validateUserLogin = [
     body('password').trim().notEmpty().withMessage("password is required").isLength({min: 6}).withMessage('password should be min 6 characters'),
 ];
 
-
-
-
 // sign in validation
-
 
 module.exports = {validateUserRegistration, validateUserLogin};

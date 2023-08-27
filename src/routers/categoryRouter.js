@@ -8,11 +8,11 @@ const categoryRouter = express.Router();
 
 
 // post /api/category
-categoryRouter.post('/create-category', validateCategory, runValidation, isloggedin, handleCreateCategory);
+categoryRouter.post('/create-category', validateCategory, runValidation, handleCreateCategory); // isloggedin,
 categoryRouter.get('/', handleGetCategories);
 categoryRouter.get('/:slug', handleGetCategory);
-categoryRouter.put('/:slug',isloggedin, handleUpdateCategory);
-categoryRouter.delete('/:slug',isloggedin, handleDeleteCategory);
+categoryRouter.put('/:slug', handleUpdateCategory);
+categoryRouter.delete('/:slug', handleDeleteCategory);
 
 
 

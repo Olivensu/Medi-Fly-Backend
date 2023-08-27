@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const morgan = require('morgan');
 const createError = require('http-errors')
 const bodyParser = require('body-parser');
@@ -12,6 +13,7 @@ const authRouter = require('./routers/authRouter');
 const cookieParser = require('cookie-parser');
 const categoryRouter = require('./routers/categoryRouter');
 const productRouter = require('./routers/productRouter');
+const shopRouter = require('./routers/shopRouter');
 const app = express();
 
 const rateLimiter = rateLimit({
@@ -24,13 +26,15 @@ app.use(xssClean());
 app.use(cookieParser());
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true}));
-
+app.use(cors());
 app.use('/api/users',userRouter)
 app.use('/api/seed',seedRouter)
 app.use('/api/auth',authRouter)
 app.use('/api/category',categoryRouter)
 app.use('/api/product',productRouter)
+app.use('/api/shop',shopRouter)
 
 const isloggedin = (req,res,next) =>{
     const login = true;

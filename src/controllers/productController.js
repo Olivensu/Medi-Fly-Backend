@@ -9,7 +9,7 @@ const Product = require('../models/productModel');
 
 const handleCreateProduct = async(req, res, next) =>{
     try {
-        const {name,description,price,discountPrice,shipping,quantity,category} = req.body;
+        const {name,description,price,shop,discountPrice,shipping,quantity,category} = req.body;
 
         const image = req.file;
 
@@ -21,7 +21,7 @@ const handleCreateProduct = async(req, res, next) =>{
         }
         const imagefile = image.filename;
         
-        const newProduct = await Product.create({name: name, slug: slugify(name),price:price,discountPrice:discountPrice,description:description,shipping:shipping, quantity:quantity,category: category,image: imagefile })
+        const newProduct = await Product.create({name: name, slug: slugify(name),shop:shop,price:price,discountPrice:discountPrice,description:description,shipping:shipping, quantity:quantity,category: category,image: imagefile })
         if(!newProduct){
             throw createError(409, 'Product is not created')
         }
@@ -61,9 +61,9 @@ const handleGetProducts = async(req, res, next) =>{
 
 const handleGetProduct = async(req, res, next) =>{
     try {
-        const {slug} = req.params;
+        const id = req.params.id;
 
-        const product = await Product.find({slug});
+        const product = await Product.findById(id);
     if(!product){
         throw createHttpError(400, 'Product not found')
     }
@@ -80,7 +80,8 @@ const handleGetProduct = async(req, res, next) =>{
 
 const handleUpdateProduct = async(req, res, next) =>{
     try {
-        const {slug} = req.params;
+        const id = req.params.id;
+        
         const options = {new: true, runValidators:true, context: 'query'};
         let update = {};
         const allowedFields = ['name', 'description', 'price', 'category', 'discountPrice','shipping','quantity',];
@@ -107,7 +108,7 @@ const handleUpdateProduct = async(req, res, next) =>{
         }
 
         // delete update.email;
-        const updateProduct = await Product.findOneAndUpdate({slug}, update,options)
+        const updateProduct = await Product.findByIdAndUpdate(id, update,options)
         if(!updateProduct){
             throw createError(404, 'Product with this slug does not exist')
         }
@@ -124,9 +125,9 @@ const handleUpdateProduct = async(req, res, next) =>{
 
 const handleDeleteProduct = async(req, res, next) =>{
     try {
-        const {slug} = req.params;
+        const id = req.params.id;
 
-        const newDeleteProduct = await Product.findOneAndDelete({slug})
+        const newDeleteProduct = await Product.findByIdAndDelete(id)
     if(!newDeleteProduct){
         throw createHttpError(400, 'Product not found')
     }

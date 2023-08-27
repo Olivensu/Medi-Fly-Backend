@@ -12,7 +12,10 @@ const productSchema = new Schema({
         type: String,
         required: [true, 'Product slug is required'],
         lowercase: true,
-        unique: true,
+    },
+    shop: {
+        type: String,
+        required: [true, 'Product shop is required'],
     },
     description: {
         type: String,
@@ -65,8 +68,23 @@ const productSchema = new Schema({
     category: {
         type: String,
         required: [true, 'Product category is required'],
-    }
-    
+    },
+    isAvailable: {
+        type: Boolean,
+        default: true,
+    },
+    isTrending: {
+        type: Boolean,
+        default: false,
+    },
+    isPopular: {
+        type: Boolean,
+        default: false,
+    },
+    isFlashSale: {
+        type: Boolean,
+        default: false,
+    },
 }, {timestamps: true});
 
 const Product = model('Product', productSchema);

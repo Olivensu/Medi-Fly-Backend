@@ -60,9 +60,10 @@ const getUsers = async(req, res, next) =>{
 const getUserById = async(req, res, next) =>{
     try {
         console.log(req.user);
-        const id = req.params.id;
-        const options = {password:0};
-        const user = await findWithId( User,id,options)
+        const email = req.params.email;
+        console.log(email)
+        // const options = {password:0};
+        const user = await User.findOne({email:email});
 
         if(!user){
             throw createError(404, 'User not found');
@@ -96,7 +97,7 @@ const processRegister = async(req, res, next) =>{
         if(imagefile.size>1024*1024*2){
             throw createError(400, 'Image size is too large')
         }
-        const image = imagefile.filename;
+        const image = req.file.filename;
 
         const userExists = await User.exists({email:email})
 
@@ -104,33 +105,35 @@ const processRegister = async(req, res, next) =>{
             throw createError(409, 'User already exists, please sign in')
         }
 
-        const token = createJsonWebToken({name, email, password, phone, address, image}, activationKey, '10m')
+        const user = await User.create({name,email,password,phone,address,image});
 
-        console.log(token);
+        // const token = createJsonWebToken({name, email, password, phone, address, image}, activationKey, '10m')
 
-        // prepare email
-        const emailData = {
-            email,
-            subject: 'Account Activation Email',
-            html: `
-            <h2>Hello ${name} !</h2>
-            <p>Please Click Here to : <a href="${clientUrl}/api/users/activate/${token}" target ="_blank">Activate your account</a></p>
-            `
-        }
+        // console.log(token);
 
-        // send email with nodeemailer
-        try {
-            await sendEmailWithNodeMailer(emailData)
-        } catch (error) {
-            next(createError(500, 'Failed to send varification email'))
-            return;
-        }
+        // // prepare email
+        // const emailData = {
+        //     email,
+        //     subject: 'Account Activation Email',
+        //     html: `
+        //     <h2>Hello ${name} !</h2>
+        //     <p>Please Click Here to : <a href="${clientUrl}/api/users/activate/${token}" target ="_blank">Activate your account</a></p>
+        //     `
+        // }
+
+        // // send email with nodeemailer
+        // try {
+        //     await sendEmailWithNodeMailer(emailData)
+        // } catch (error) {
+        //     next(createError(500, 'Failed to send varification email'))
+        //     return;
+        // }
 
 
     return successResponse(res, {
         statusCode: 200,
         message: `Please go to your ${email} for completing your registration process`,
-        payload: {token}
+        payload: {user}
     })
     } catch (error) {
         if(error instanceof mongoose.Error){

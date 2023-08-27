@@ -11,13 +11,10 @@ const productRouter = express.Router();
 // post /api/product
 productRouter.post('/create-product',upload.single("image"), handleCreateProduct);
 productRouter.get('/', handleGetProducts);
-productRouter.get('/:slug', handleGetProduct);
+productRouter.get('/:id', handleGetProduct);
 // categoryRouter.get('/', handleGetCategories);
 // categoryRouter.get('/:slug', handleGetCategory);
-productRouter.put('/:slug', handleUpdateProduct);
-productRouter.delete('/:slug', handleDeleteProduct);
-
-
-
+productRouter.put('/:id',upload.single("image"), handleUpdateProduct);
+productRouter.delete('/:id', handleDeleteProduct);  
 
 module.exports = productRouter

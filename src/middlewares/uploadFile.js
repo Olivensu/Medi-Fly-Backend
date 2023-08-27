@@ -12,13 +12,14 @@ const storage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
       const extname = path.extname(file.originalname);
-      cb(null, Date.now() + "-" + file.originalname.replace(extname, '')+ extname)
+      const sanitizedFilename = file.originalname.replace(/\s+/g, '-');
+      cb(null, Date.now() + "-" +sanitizedFilename+ extname) // before=> file.originalname.replace(extname, '')
     }
   })
 
   const fileFilter = (req, file, cb) => {
     const extname = path.extname(file.originalname);
-    console.log(extname)
+    // console.log(extname)
     if(!allowedFileTypes.includes(extname.substring(1))){
       return cb(new Error('FileType not allowed'), false); 
     }
