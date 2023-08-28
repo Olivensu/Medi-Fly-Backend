@@ -9,7 +9,7 @@ const Product = require('../models/productModel');
 
 const handleCreateProduct = async(req, res, next) =>{
     try {
-        const {name,description,price,shop,discountPrice,shipping,quantity,category} = req.body;
+        const {name,description,price,shop,shopSlug,discountPrice,shipping,quantity,category} = req.body;
 
         const image = req.file;
 
@@ -21,7 +21,7 @@ const handleCreateProduct = async(req, res, next) =>{
         }
         const imagefile = image.filename;
         
-        const newProduct = await Product.create({name: name, slug: slugify(name),shop:shop,price:price,discountPrice:discountPrice,description:description,shipping:shipping, quantity:quantity,category: category,image: imagefile })
+        const newProduct = await Product.create({name: name, slug: slugify(name),shop:shop, shopSlug:shopSlug, price:price,discountPrice:discountPrice,description:description,shipping:shipping, quantity:quantity,category: category,image: imagefile })
         if(!newProduct){
             throw createError(409, 'Product is not created')
         }
@@ -76,6 +76,26 @@ const handleGetProduct = async(req, res, next) =>{
         
         next(error)
     }
+}
+
+const handleGetProductByShop = async(req, res, next) =>{
+    try {
+        const shopSlug = req.params.shopSlug;
+      
+        const products = await Product.find({ shopSlug });
+      
+        if (products.length === 0) {
+          throw createHttpError(404, 'Products not found');
+        }
+      
+        return successResponse(res, {
+          statusCode: 200,
+          message: 'Products fetched successfully',
+          payload: { products },
+        });
+      } catch (error) {
+        next(error);
+      }
 }
 
 const handleUpdateProduct = async(req, res, next) =>{
@@ -136,10 +156,10 @@ const handleDeleteProduct = async(req, res, next) =>{
         message: `Product deleted successfully`,
         payload: newDeleteProduct,
     })
-    } catch (error) {
+    } catch (error) { 
         
         next(error)
     }
 }
 
-module.exports = {handleCreateProduct,handleGetProducts, handleGetProduct, handleUpdateProduct,handleDeleteProduct}
+module.exports = {handleCreateProduct,handleGetProducts, handleGetProduct,handleGetProductByShop, handleUpdateProduct,handleDeleteProduct}

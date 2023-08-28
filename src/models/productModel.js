@@ -17,6 +17,10 @@ const productSchema = new Schema({
         type: String,
         required: [true, 'Product shop is required'],
     },
+    shopSlug: {
+        type: String,
+        required: [true, 'Product shop is required'],
+    },
     description: {
         type: String,
         required: [true, 'Product description is required'],
