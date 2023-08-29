@@ -5,6 +5,7 @@ const { createCategory, getCategory, getCategories, updateCategory, deleteCatego
 const { createProduct } = require('../services/productService');
 const Product = require('../models/productModel');
 const Shop = require('../models/shopModel');
+const User = require('../models/userModel');
 
 
 const handleCreateShop = async(req, res, next) =>{
@@ -25,6 +26,12 @@ const handleCreateShop = async(req, res, next) =>{
         if(!newShop){
             throw createError(409, 'Shop is not created')
         }
+
+        const user = await User.findOneAndUpdate({email: email}, {isSeller:true},{ new: true });
+        if(user){
+            throw createError(409, 'User is not found')
+        }
+
     return successResponse(res, {
         statusCode: 201,
         message: `Shop Created successfully`,
