@@ -1,6 +1,30 @@
-const {Schema, model} = require("mongoose");
+
+const {Schema, model,mongoose} = require("mongoose");
 const bcrypt = require("bcrypt");
 const { defaultImgURL } = require("../secret");
+
+// Define the products schema
+const products = new Schema({
+    cartItem: {
+        type: mongoose.Schema.Types.Mixed, // Store any type of data
+      }
+  }, {timestamps: true});
+
+// Define the products schema
+const newAddress = new Schema({
+    name: {
+        type: String,
+        required: [true, 'User name is required'],
+      },
+    address: {
+      type: String,
+      required: true,
+    },
+    phone: {
+      type: Number,
+      required: true,
+    },
+  }, );
 
 const userSchema = new Schema({
     name: {
@@ -52,6 +76,8 @@ const userSchema = new Schema({
         type: Boolean,
         default: false
     },
+    newAddress:[newAddress],
+    products:[products],
 }, {timestamps: true});
 
 const User = model('Users', userSchema);
