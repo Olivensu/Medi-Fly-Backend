@@ -7,6 +7,20 @@ const { defaultImgURL } = require("../secret");
 const products = new Schema({
     cartItem: {
         type: mongoose.Schema.Types.Mixed, // Store any type of data
+      },
+    quantity:{
+        type: Number,
+        required: true,
+      }
+  }, {timestamps: true});
+// Define the order schema
+const order = new Schema({
+    order: {
+        type: mongoose.Schema.Types.Mixed, // Store any type of data
+      },
+      status: {
+        type: String,
+        default: 'Ordered'
       }
   }, {timestamps: true});
 
@@ -78,6 +92,7 @@ const userSchema = new Schema({
     },
     newAddress:[newAddress],
     products:[products],
+    orders:[order]
 }, {timestamps: true});
 
 const User = model('Users', userSchema);
