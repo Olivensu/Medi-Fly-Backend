@@ -106,6 +106,8 @@ const processRegister = async(req, res, next) =>{
         }
 
         const user = await User.create({name,email,password,phone,address,image});
+        user.newAddress.push({name: name, address:address, phone:phone})
+        user.save()
 
         // const token = createJsonWebToken({name, email, password, phone, address, image}, activationKey, '10m')
 
@@ -381,6 +383,28 @@ const handleForgetPassword = async(req, res, next) =>{
     }
 }
 
+const handleNewAddress = async(req, res, next) =>{
+    try {
+        const {name, phone, address,email} = req.body;
+        
+        const user = await User.findOne({email})
+
+        if(!user){
+            throw createError(404, 'User  not found')
+        }
+        user.newAddress.push({name: name,phone:phone,address:address})
+        await user.save();
+
+    return successResponse(res, {
+        statusCode: 200,
+        message: `New address created successfully`,
+        payload: user.newAddress
+    })
+    } catch (error) {
+        next(error)
+    }
+}
+
 const handleResetPassword = async(req, res, next) =>{
     try {
         const {token, password} = req.body;
@@ -445,4 +469,4 @@ const deleteUserById = async(req, res, next) =>{
     }
 }
 
-module.exports = {getUsers, getUserById, deleteUserById,handleUpdatePassword,handleResetPassword,handleForgetPassword,updateUserById,banUserById,unbanUserById, processRegister, activateUserAccount}
+module.exports = {getUsers, getUserById, deleteUserById,handleUpdatePassword,handleResetPassword,handleForgetPassword,updateUserById,banUserById,unbanUserById, processRegister, activateUserAccount,handleNewAddress}

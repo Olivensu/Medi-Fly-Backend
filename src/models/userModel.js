@@ -18,7 +18,32 @@ const order = new Schema({
     order: {
         type: mongoose.Schema.Types.Mixed, // Store any type of data
       },
-      status: {
+      name: {
+        type: String,
+        required: [true, 'User name is required'],
+      },
+    address: {
+      type: String,
+      required: true,
+    },
+    phone: {
+      type: Number,
+      required: true,
+    },
+    email: {
+        type: String,
+        required: [true, 'User email is required'],
+        trim: true,
+        unique: true,
+        lowercast: true,
+        validate: {
+            validator: function(v) {
+                return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(v);
+            },
+            message: 'Email validation failed'
+        }
+    },
+    status: {
         type: String,
         default: 'Ordered'
       }

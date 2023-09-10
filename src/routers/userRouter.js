@@ -1,5 +1,5 @@
 const express = require('express');
-const { getUsers, getUserById, deleteUserById, processRegister, activateUserAccount, updateUserById, banUserById, unbanUserById, handleUpdatePassword, handleForgetPassword, handleResetPassword } = require('../controllers/userController');
+const { getUsers, getUserById, deleteUserById, processRegister, activateUserAccount, updateUserById, banUserById, unbanUserById, handleUpdatePassword, handleForgetPassword, handleResetPassword, handleNewAddress } = require('../controllers/userController');
 const upload = require('../middlewares/uploadFile');
 const { validateUserRegistration } = require('../validators/auth');
 const runValidation = require('../validators');
@@ -20,6 +20,7 @@ userRouter.put('/ban-user/:id',  banUserById);
 userRouter.put('/unban-user/:id',  unbanUserById);
 userRouter.put('/update-password/:id', handleUpdatePassword);
 userRouter.post('/forget-password', handleForgetPassword);
+userRouter.post('/new-address', handleNewAddress);
 
 
 
